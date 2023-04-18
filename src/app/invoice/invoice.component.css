@@ -1,0 +1,80 @@
+.modal-dialog {
+    margin: 16vh auto 0px auto;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 0.3rem;
+    outline: 0;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.modal-dialog2 {
+    margin: 19.5vh auto 0px auto;
+    height: 200px;
+    width: 450px;
+    /* border: 1px light #808080;
+    border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 0.3rem;
+    outline: 0;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.modal-dialog3 {
+    margin: 23.5vh auto 0px auto;
+    height: 150px;
+    width: 400px;
+    /* border: 1px light #808080;
+    border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 0.3rem;
+    outline: 0;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+
+
+.modal-backdrop {
+    opacity: 0.5;
+}
+
+#btn1 {
+    border: none;
+    color: black;
+    padding: 12px 12px;
+    font-size: 20px;
+}
+
+.mat-expansion-panel-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 12px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+mat-label {
+    height: 20px;
+    width: 100px;
+  }
+  
+.mat-mdc-option {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    min-height: 20px;
+}

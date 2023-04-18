@@ -1,0 +1,41 @@
+.container-fluid{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    margin: 10vh auto 0px auto;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 0.3rem;
+    outline: 0;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+#action {
+    gap: 5px;
+}
+
+#btn1 {
+    border: none;
+    color: black;
+    padding: 12px 12px;
+    font-size: 20px;
+}
+
+.mat-mdc-option {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    min-height: 20px;
+}
