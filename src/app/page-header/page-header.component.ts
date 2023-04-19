@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router,NavigationStart } from '@angular/router';
-import {LoginService} from '../login/loginServices'
+import { Router, NavigationStart } from '@angular/router';
+import { LoginService } from '../login/loginServices'
 
 @Component({
   selector: 'app-page-header',
@@ -9,37 +9,36 @@ import {LoginService} from '../login/loginServices'
 })
 export class PageHeaderComponent {
   @Output() menuClicked = new EventEmitter<boolean>();
-  showHead:boolean=false;
+  showHead: boolean = false;
 
 
 
-
-ngOnInit(){
-
+  ngOnInit() {
 
 
 
+  }
+
+  constructor(private router: Router) {
+
+    router.events.forEach((event) => {
+
+      if (event instanceof NavigationStart) {
+
+        if (event['url'] == ('/login' || '/')) {
+
+          this.showHead = false;
+
+        } else {
+
+          this.showHead = true;
+
+        }
+
+      }
+
+    });
+
+  }
 }
 
-constructor(private router:Router){
-
-  router.events.forEach((event)=>{
-
-    if(event instanceof NavigationStart){
-
-      if(event['url']==('/login'||'/')){
-
-        this.showHead=false;
-
-      }else{
-
-        this.showHead=true;
-
-      }
-
-    }
-
-  });
-
-}
-}

@@ -26,10 +26,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import { DialogComponent } from './dialog/dialog.component';
 import { CheckDComponent } from './check-d/check-d.component';
 import { BookComponent } from './book/book.component';
 import { BookAllocationComponent } from './book-allocation/book-allocation.component';
+//  import { UniversitiyServiceService } from './services/UniversityServices/universitiy-service.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -65,9 +71,10 @@ import { BookAllocationComponent } from './book-allocation/book-allocation.compo
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
+    HttpClientModule
 
   ],
-  providers: [],
+  // providers: [UniversitiyServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

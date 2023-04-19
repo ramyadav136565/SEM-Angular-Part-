@@ -12,7 +12,7 @@ import { BookComponent } from './book/book.component';
 import { BookAllocationComponent } from './book-allocation/book-allocation.component';
 
 const routes: Routes = [
-  {path:'', component:LoginComponent}, 
+  {path:'', component:LoginComponent},
   {path:'login', component:LoginComponent},
   {path:'login/staff', component:StaffComponent},
   {path:'staff', component:StaffComponent},
