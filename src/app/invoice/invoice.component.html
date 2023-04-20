@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col">
                 <div class="col">
-                    Search by Name: <input type="text" id="x">
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search columns" #input>
                 </div>
             </div>
             <div class="col" style="margin-right: 50px;">
@@ -21,10 +21,10 @@
         <div class="modal" id="myModal" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
-                <!-- Modal Header -->
+                    <!-- Modal Header -->
                     <div class="modal-header">
                         <b><h5 class="modal-title">Invoice</h5></b>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="CloseModel()">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal1n2()">
                         <span aria-hidden="true">&times;</span>
                         </button>   
                     </div>
@@ -34,9 +34,9 @@
                                 <mat-form-field appearance="fill" style="margin-left: 18px;">
                                     <mat-label>Select university</mat-label>
                                     <mat-select id="uniId" formControlName="uniId">
-                                    <mat-option *ngFor="let university of universities" [value]="university.value">
-                                        {{university.viewValue}}
-                                    </mat-option>
+                                        <mat-option *ngFor="let university of universities" [value]="university.value">
+                                            {{university.viewValue}}
+                                        </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -45,76 +45,52 @@
                                 <mat-form-field appearance="fill">
                                     <mat-label>Select term</mat-label>
                                     <mat-select id="term" formControlName="term">
-                                    <mat-option *ngFor="let term of terms" [value]="term.value">
-                                        {{term.viewValue}}
-                                    </mat-option>
-                                </mat-select>
+                                        <mat-option *ngFor="let term of terms" [value]="term.value">
+                                            {{term.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                             <div class="row" style="margin-left: 37%; margin-bottom: 5px;">
-                                <button class="btn btn-primary" [disabled]="invoiceForm.invalid" (click)="openModel2()">
+                                <button class="btn btn-primary" [disabled]="invoiceForm.invalid" (click)="isPanelOpen = true">
                                     Generate Invoice
                                 </button>
                             </div>
                         </div>
-                        <div style="text-align: center; margin-bottom: 10px;">
-                            <br><h6>Thankyou for choosing SEM form shopping.</h6>
+
+                        <div *ngIf="isPanelOpen">
+                            <div class="container" style="margin-top: 5px;">
+                                <div class="row">
+                                    <div class="col">University Id: 1001</div>
+                                    <div class="col">Sub Total: {{total}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">University Name: DAVV</div>
+                                    <div class="col">Taxes: {{taxes}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">Term: 6</div>
+                                    <div class="col">Total Amount: {{totAmt}}</div>
+                                </div>
+                                <hr>
+                                <div class="row" style="margin-top: 5px;">
+                                    <div class="col text-right" style="margin-bottom: 10px;">
+                                        <button class="btn btn-primary" (click)="openAndClose1()" style="margin-right: 10px;">Create Invoice</button>
+                                        <button class="btn btn-danger"  (click)="closeModel1ntext()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Nested modal 1 -->
-                        <div class="modal" id="myModal2">
-                            <div class="modal-dialog2">
-                                <div class="modal-header" >
-                                    <b><h5 class="modal-title">Invoice Details</h5></b>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="CloseModel2()">
+
+                        <div class="modal" id="myModal3">
+                            <div class="modal-dialog3">
+                                <div class="modal-header">
+                                    <b><h5 class="modal-title">Invoice created</h5></b>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal3n1()">
                                     <span aria-hidden="true">&times;</span>
                                     </button>   
                                 </div>
-                                <div class="container" style="margin-top: 5px;">
-                                    <div class="row">
-                                        <div class="col">
-                                            University Id: 1001
-                                        </div>
-                                        <div class="col">
-                                            Sub Total: {{total}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            University Name: DAVV
-                                        </div>
-                                        <div class="col">
-                                            Taxes: {{taxes}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            Term: 6
-                                        </div>
-                                        <div class="col">
-                                            Total Amount: {{totAmt}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 35%; margin-top: 5px;">
-                                    <button class="btn btn-primary" [disabled]="invoiceForm.invalid" (click)="openModel3()">
-                                        Create Invoice
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="modal" id="myModal3">
-                                <div class="modal-dialog3">
-                                    <div class="modal-header">
-                                        <b><h5 class="modal-title">Invoice created</h5></b>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="CloseModel3()">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>   
-                                    </div>
-                                    <div class="class container"></div>
-                                    <div class="container" style="margin-top: 5px;">
-                                        <div class="col">
-                                            Invoice Id
-                                        </div>
-                                    </div>
+                                <div class="class container">
                                     <div class="container" style="text-align: center;">
                                         <p>Invoice has been created.</p>
                                     </div>

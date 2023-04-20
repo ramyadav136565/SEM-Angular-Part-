@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatTableDataSource} from '@angular/material/table';
 
 export interface PeriodicElement {
   id: number;
@@ -41,7 +42,7 @@ export class InvoiceComponent {
 
   // For table
   displayedColumns: string[] = ['id', 'universityName', 'term', 'bookQuantity', 'tax', 'totalAmount', 'action'];
-  dataSource = ELEMENT_DATA;
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   // For Form
   invoiceForm = new FormGroup({
@@ -51,6 +52,7 @@ export class InvoiceComponent {
 
   invoiceSubmitted(){
     console.log(this.invoiceForm.value);
+    
   }
 
   // For Modal
@@ -59,6 +61,7 @@ export class InvoiceComponent {
     if(modelDiv!= null) {
       modelDiv.style.display = 'block';
     } 
+    this.invoiceForm.reset();
   }
 
   CloseModel() {
@@ -66,13 +69,7 @@ export class InvoiceComponent {
     if(modelDiv!= null) {
       modelDiv.style.display = 'none';
     } 
-  }
-
-  openModel2() {
-    const modelDiv = document.getElementById('myModal2');
-    if(modelDiv!= null) {
-      modelDiv.style.display = 'block';
-    } 
+    // this.CloseModel2();
   }
 
   CloseModel2() {
@@ -80,6 +77,7 @@ export class InvoiceComponent {
     if(modelDiv!= null) {
       modelDiv.style.display = 'none';
     } 
+    this.invoiceForm.reset();
   }
 
   openModel3() {
@@ -88,12 +86,44 @@ export class InvoiceComponent {
       modelDiv.style.display = 'block';
     } 
   }
-
   CloseModel3() {
     const modelDiv = document.getElementById('myModal3');
     if(modelDiv!= null) {
       modelDiv.style.display = 'none';
     } 
+  }
+
+  closeModel1ntext(){
+    this.CloseModel();
+    this.isPanelOpen = false;
+  }
+
+  openAndClose1(){
+    this.openModel3();
+    // this.CloseModel();
+    // this.isPanelOpen = false;
+  }
+
+  closeModal1n2(){
+    this.CloseModel();
+    this.CloseModel2();
+    this.isPanelOpen = false;
+  }
+  // openAndCloseModels() {
+  //   // this.openModel();
+  //   this.CloseModel2();
+  //   this.CloseModel();
+  // }
+
+  // closeModal1n2() {
+  //   this.CloseModel();
+  //   this.CloseModel2();
+  // }
+
+  closeModal3n1(){
+    this.CloseModel3();
+    this.CloseModel();
+    this.isPanelOpen = false;
   }
 
   universities: University[] = [
@@ -116,4 +146,13 @@ export class InvoiceComponent {
     {value: 11, viewValue: '11th sem'},
     {value: 12, viewValue: '12th sem'},
   ];
+
+  isPanelOpen = false;
+
+  
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

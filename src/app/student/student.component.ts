@@ -1,167 +1,39 @@
-// import { Component, OnInit } from '@angular/core';
-// import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-// //For table
-// export interface students {
-//   stuId: number;
-//   name: string;
-//   address: string;
-//   email: string;
-//   university: string;
-//   term: number;
-//   course: string;
-//   isDeleted: string;
-//   action: number;
-// }
-
-// // Form fields
-// interface University {
-//   value: number;
-//   viewValue: string;
-// }
-
-// interface Term {
-//   value: number;
-//   viewValue: string;
-// }
-
-// interface Course {
-//   value: string;
-//   viewValue: string;
-// }
-
-// //For table
-// const studentDetails: students[] = [
-//   {stuId: 1, name: 'Rameshwar', address:'Indore', email:'ram@gamil.com', university:'Silicon', term:2, course:'BTech', isDeleted: 'Yes', action: 1},
-//   {stuId: 2, name: 'Piyush', address:'Odisha', email:'piyush@gamil.com', university:'ITDAV', term:8, course:'BA',  isDeleted: 'No', action: 1},
-//   {stuId: 3, name: 'Yogesh', address:'Lucknow', email:'harsh@gamil.com', university:'CV Raman', term:6, course:'BE',  isDeleted: 'No', action: 1},
-// ];
-
-// @Component({
-//   selector: 'app-student',
-//   templateUrl: './student.component.html',
-//   styleUrls: ['./student.component.css']
-// })
-
-// export class StudentComponent{
-//   // For panel
-//   panelOpenState1 = true;
-
-//   // For form
-//   stuForm = new FormGroup({
-//     name: new FormControl('', Validators.required),
-//     email: new FormControl('', [Validators.required, Validators.email]),
-//     address: new FormControl('', Validators.required),
-//     universityId: new FormControl('', Validators.required),
-//     term: new FormControl('', [Validators.required, Validators.min(1), Validators.max(12)]),
-//     course: new FormControl('', Validators.required),
-//   });
-
-//   stuSubmitted(){
-//     console.log(this.stuForm.value);
-//   }
-
-//   get name(): FormControl {
-//     return this.stuForm.get('name') as FormControl;
-//   }
-
-//   get email(): FormControl {
-//     return this.stuForm.get('email') as FormControl;
-//   }
-
-//   get address(): FormControl {
-//     return this.stuForm.get('address') as FormControl;
-//   }
-
-//   get universityId(): FormControl {
-//     return this.stuForm.get('universityId') as FormControl;
-//   }
-
-//   get term(): FormControl {
-//     return this.stuForm.get('term') as FormControl;
-//   }
-
-//   get course(): FormControl {
-//     return this.stuForm.get('course') as FormControl;
-//   }
-
-
-//   // For Modal
-//   openModel() {
-//     const modelDiv = document.getElementById('myModal');
-//     if(modelDiv!= null) {
-//       modelDiv.style.display = 'block';
-//     } 
-//   }
-
-//   CloseModel() {
-//     const modelDiv = document.getElementById('myModal');
-//     if(modelDiv!= null) {
-//       modelDiv.style.display = 'none';
-//     } 
-//   }
-
-//   // For form fields
-//   terms: Term[] = [
-//     {value: 1, viewValue: '1st sem'},
-//     {value: 2, viewValue: '2nd sem'},
-//     {value: 3, viewValue: '3rd sem'},
-//     {value: 4, viewValue: '4th sem'},
-//     {value: 5, viewValue: '5th sem'},
-//     {value: 6, viewValue: '6th sem'},
-//     {value: 7, viewValue: '7th sem'},
-//     {value: 8, viewValue: '8th sem'},
-//     {value: 9, viewValue: '9th sem'},
-//     {value: 10, viewValue: '10th sem'},
-//     {value: 11, viewValue: '11th sem'},
-//     {value: 12, viewValue: '12th sem'},
-//   ];
-
-//   courses: Course[] = [
-//     {value: 'BTech', viewValue: 'BTech'},
-//     {value: 'BCA', viewValue: 'BCA'},
-//     {value: 'BA', viewValue: 'BA'},
-//   ];
-
-
-//   universities: University[] = [
-//     {value: 1001, viewValue: 'Solicon'},
-//     {value: 1002, viewValue: 'DAVV'},
-//     {value: 1003, viewValue: 'HIT'},
-//   ];
-
-//   // For table
-//   displayedColumns: string[] = ['stuId', 'name', 'address', 'email','university', 'course', 'term', 'isDeleted', 'action'];
-//   dataSource = studentDetails;
-// }
 
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StudentServiceService } from '../services/StudentServices/student-service.service';
 
-interface Status {
+export interface Status {
   value: boolean;
   viewValue: string;
 }
-// interface universityNames{
-//   value:string;
-//   viewValue: number;
-// }
 
-interface University {
+export interface University {
+  value: number;
+  viewValue: string;
+
+}
+
+export interface Term {
   value: number;
   viewValue: string;
 }
 
-interface Term {
-  value: number;
-  viewValue: string;
-}
-
-interface Course {
+export interface Course {
   value: string;
   viewValue: string;
+}
+
+export interface Student {
+  
+  fullName: any;
+  address: any;
+  email: any;
+  universityId: any;
+  term: any;
+  course: any;
+  
 }
 
 @Component({
@@ -173,16 +45,10 @@ interface Course {
 export class StudentComponent {
   constructor(private studentService: StudentServiceService,) { }
 
-  fullName: any;
-  address: any;
-  email: any;
-  universityId: any;
-  term: any;
-  course: any;
   title: any;
-  studentId: any;
   hideControl: any;
   formName: any = true;
+  UniversityName: any;
 
   StudentList: any = [];
   ShowAllStudents() {
@@ -223,12 +89,7 @@ export class StudentComponent {
             location.reload();
           },
           error: (error: any) => {
-            // if (this.addForm.value.address == null || this.addForm.value.course == "" || this.addForm.value.email == null || this.addForm.value.fullName == null || this.addForm.value.term == null || this.addForm.value.universityId == null) {
-            //   window.alert("The student data provided appears to be invalid or null")
-            // }
-            // else {
-              window.alert(error.error);
-            // }
+            window.alert(error.error);
             console.log(error);
           }
         });
@@ -243,12 +104,7 @@ export class StudentComponent {
             location.reload();
           },
           error: (error: any) => {
-            // if (this.address == null || this.course == "" || this.email == null || this.fullName == null || this.term == null || this.universityId == null) {
-            //   window.alert("Please fill all details")
-            // }
-            // else {
-              window.alert(error.error);
-            // }
+            window.alert(error.error);
             console.log(error);
           }
         });
@@ -256,19 +112,21 @@ export class StudentComponent {
   }
 
   deleteStudent(id: number): void {
-    this.studentService.deleteStudent(id).subscribe({
-      next: (response: ArrayBuffer) => {
-        const message = new TextDecoder().decode(response);
-        window.alert(message);
-        console.log(message);
-        location.reload();
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    });
+    if (window.confirm("Are you sure you want to delete this student?")) {
+      this.studentService.deleteStudent(id).subscribe({
+        next: (response: ArrayBuffer) => {
+          var message = new TextDecoder().decode(response);
+          window.alert(message);
+          location.reload();
+        },
+        error: (error: any) => {
+          console.error(error);
+        }
+      });
 
+    }
   }
+
   // For panel
   panelOpenState1 = true;
 
@@ -293,91 +151,33 @@ export class StudentComponent {
     course: new FormControl('', Validators.required),
   });
 
-  // stuSubmitted() {
-  //   console.log(this.updateForm.value);
-  // }
   stuSubmitted() {
     console.log(this.updateForm.value);
   }
+
   get validEmail(): FormControl {
-      
-    if (this.title == "Add Student"){
+    if (this.title == "Add Student") {
       return this.addForm.get('email') as FormControl;
-      }else
-      {
-        return this.updateForm.get('email') as FormControl;
-      }
-
-
-    
-
+    } else {
+      return this.updateForm.get('email') as FormControl;
+    }
   }
+
   get validName(): FormControl {
-     
-    if (this.title == "Add Student"){
-    return this.addForm.get('fullName') as FormControl;
-    }else
-    {
+    if (this.title == "Add Student") {
+      return this.addForm.get('fullName') as FormControl;
+    } else {
       return this.updateForm.get('fullName') as FormControl;
     }
   }
+
   get validAddress(): FormControl {
-    if (this.title == "Add Student"){
+    if (this.title == "Add Student") {
       return this.addForm.get('address') as FormControl;
-      }else
-      {
-        return this.updateForm.get('address') as FormControl;
-      }
-
-   
-    
-     }
-    
-
-    
-
-
-  // get email(): FormControl {
-
-  //   return this.stuForm.get('email') as FormControl;
-
-  // }
-
-
-
-
-  // get address(): FormControl {
-
-  //   return this.stuForm.get('address') as FormControl;
-
-  // }
-
-
-
-
-  // get universityId(): FormControl {
-
-  //   return this.stuForm.get('universityId') as FormControl;
-
-  // }
-
-
-
-
-  // get term(): FormControl {
-
-  //   return this.stuForm.get('term') as FormControl;
-
-  // }
-
-
-
-
-  // get course(): FormControl {
-
-  //   return this.stuForm.get('course') as FormControl;
-
-  // }
+    } else {
+      return this.updateForm.get('address') as FormControl;
+    }
+  }
 
   // For Modal
   openModel() {
@@ -394,14 +194,15 @@ export class StudentComponent {
       location.reload();
     }
   }
+
   ngOnInit(): void {
     this.ShowAllStudents();
     this.title = "Add Student"
   }
+
   status: Status[] = [
     { value: true, viewValue: 'Inctive' },
     { value: false, viewValue: 'Active' },
-
   ];
 
   universities: University[] = [
@@ -411,6 +212,7 @@ export class StudentComponent {
 
   ];
 
+
   terms: Term[] = [
     { value: 1, viewValue: '1st sem' },
     { value: 2, viewValue: '2nd sem' },
@@ -419,11 +221,7 @@ export class StudentComponent {
     { value: 5, viewValue: '5th sem' },
     { value: 6, viewValue: '6th sem' },
     { value: 7, viewValue: '7th sem' },
-    { value: 8, viewValue: '8th sem' },
-    // {value: 9, viewValue: '9th sem'},
-    // {value: 10, viewValue: '10th sem'},
-    // {value: 11, viewValue: '11th sem'},
-    // {value: 12, viewValue: '12th sem'},
+    { value: 8, viewValue: '8th sem' }
   ];
 
   courses: Course[] = [
@@ -431,13 +229,8 @@ export class StudentComponent {
     { value: 'BCA', viewValue: 'BCA' },
     { value: 'BA', viewValue: 'BA' },
   ];
-  // universityNames:universityName[] = {
-   
-  
-  // };
 
-  // For table
-  displayedColumns: string[] = ['stuId', 'name', 'address', 'university','email', 'course', 'term', 'isDeleted', 'action'];
+  displayedColumns: string[] = ['stuId', 'name', 'address', 'university', 'email', 'course', 'term', 'isDeleted', 'action'];
 }
 
 

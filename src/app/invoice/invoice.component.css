@@ -1,27 +1,15 @@
 .modal-dialog {
     margin: 16vh auto 0px auto;
     border: 1px solid rgba(0,0,0,.5);
-    border-radius: 0.3rem;
-    outline: 0;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-}
-
-.modal-dialog2 {
-    margin: 19.5vh auto 0px auto;
-    height: 200px;
-    width: 450px;
-    /* border: 1px light #808080;
-    border-radius: 5px; */
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,.5);
-    border-radius: 0.3rem;
     outline: 0;
+    border-radius: 0.3rem;
     box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
 
 .modal-dialog3 {
-    margin: 23.5vh auto 0px auto;
-    height: 150px;
+    margin: 12vh auto 0px auto;
+    height: 90px;
     width: 400px;
     /* border: 1px light #808080;
     border-radius: 5px; */
