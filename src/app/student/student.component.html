@@ -190,8 +190,11 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator #paginator [pageSize]="6" [pageSizeOptions]="[1, 2, 3, 7]" showFirstLastButtons="true">
+            <mat-paginator #paginator [pageSize]="6" [pageSizeOptions]="[1, 2, 3,7,8,9,10]" showFirstLastButtons="true">
             </mat-paginator>
+            <div style="padding-left: 90%;" class="mat-paginator-page-size">
+                Page {{ paginator.pageIndex + 1 }} of {{ paginator.getNumberOfPages() }}
+             </div>
         </div>
     </mat-expansion-panel>
 </mat-accordion>

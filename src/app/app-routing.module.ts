@@ -11,7 +11,7 @@ import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', pathMatch: 'full',component: LoginComponent },
+  { path: 'login', pathMatch: 'full', component: LoginComponent },
   { path: 'login/staff', component: StaffComponent },
   { path: 'staff', component: StaffComponent },
   { path: 'university', component: UniversityComponent },

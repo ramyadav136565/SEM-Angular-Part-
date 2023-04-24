@@ -1,9 +1,10 @@
-<mat-toolbar color = "primary">      
-    <button  class="btn" *ngIf="showHead" (click)="menuClicked.emit()"><i class="fa fa-home"></i> Home</button>
-    <h1><b>Student Enrollment Management</b></h1> 
+<mat-toolbar color="primary">
+    <button class="btn" *ngIf="showHead" (click)="menuClicked.emit()"><i class="fa fa-home"></i> Home</button>
+    <h1 style="font-size: 25px;"><strong>Student Enrollment Management</strong></h1>
     <div class="user-info">
         <span>
         </span>
-        <button  class="btn"  (click)="LogOut()" *ngIf="showHead" routerLink="/login"><i class="fa fa-sign-in"></i> Log Out</button>
+        <button class="btn" (click)="LogOut()" *ngIf="showHead" routerLink="/login"><i class="fa fa-sign-in"></i> Log
+            Out</button>
     </div>
- </mat-toolbar>  
+</mat-toolbar>

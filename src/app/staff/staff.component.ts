@@ -31,25 +31,21 @@ export interface User {
 })
 
 
-export class StaffComponent implements OnInit{
+export class StaffComponent implements OnInit {
   showAlert = false;
 
   constructor(private StaffServiceService: StaffServiceService,
-    private loginService:AuthenticationServiceService,
+    private loginService: AuthenticationServiceService,
     private route: ActivatedRoute) { }
   dataSource = new MatTableDataSource<any>
 
-    @ViewChild('paginator') paginator!: MatPaginator;
-    @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
   title: any;
   hideControl: any;
   formName: any = true;
   UniversityName: any;
-
-  // showAllStaff:any;
-  // staffdata:any=[];
-
-  loginFlag:any;
+  loginFlag: any;
 
   UserList: any = [];
   ShowAllUsers() {
@@ -57,7 +53,6 @@ export class StaffComponent implements OnInit{
       this.UserList = data;
       this.dataSource = new MatTableDataSource(this.UserList);
       this.dataSource.paginator = this.paginator;
-      // console.log(data);
     });
   }
 
@@ -76,7 +71,6 @@ export class StaffComponent implements OnInit{
         roleId: new FormControl(data.roleId, Validators.required),
         isActive: new FormControl(data.isActive, Validators.required)
       });
-      console.log(data);
     });
   }
 
@@ -117,12 +111,10 @@ export class StaffComponent implements OnInit{
         next: (response: ArrayBuffer) => {
           var message = new TextDecoder().decode(response);
           window.alert(message);
-          this.showAlert=false;
+          this.showAlert = false;
           location.reload();
-         
         },
         error: (error: any) => {
-        
         }
       });
 
@@ -189,23 +181,19 @@ export class StaffComponent implements OnInit{
         this.showAlert = true;
         setTimeout(() => {
           this.showAlert = false;
-          localStorage.setItem('showAlert', 'false'); // Store value in local storage
         }, 3000);
-      } else {
-        this.showAlert = localStorage.getItem('showAlert') === 'true'; // Retrieve value from local storage
       }
     });
-    
 
-    this.loginFlag=this.loginService.loginFlag
+    this.loginFlag = localStorage.getItem('loginFlag') === 'true';
     this.ShowAllUsers();
 
     this.title = "Add Staff"
   }
 
   status: Status[] = [
-    { value: true, viewValue: 'Inctive' },
-    { value: false, viewValue: 'Active' }
+    { value: true, viewValue: 'Active' },
+    { value: false, viewValue: 'Inctive' }
   ];
   roles: Role[] = [
     { value: 1, viewValue: 'Admin' },
@@ -215,7 +203,7 @@ export class StaffComponent implements OnInit{
   displayedColumns: string[] = ['Id', 'name', 'email', 'isActive', 'action'];
   filterData($event: any) {
     this.dataSource.filter = $event.target.value;
- }
+  }
 }
 
 

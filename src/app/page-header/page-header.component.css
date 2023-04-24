@@ -11,14 +11,20 @@
     display: flex;
     align-items: center;
 }
-/* mat-toolbar user-info{
-    display: flex;
-    align-items: center;
-} */
-
 .btn {
   color: white;
   padding: 8px 8px;
   font-size: 22px;
   cursor: pointer;
+}
+button.logout {
+  background-color: #ff0000; /* sets the background color to red */
+  color: #ffffff; /* sets the text color to white */
+  border: none; /* removes the border */
+  padding: 10px 20px; /* adds some padding to the button */
+  cursor: pointer; /* changes the cursor to a hand when hovering over the button */
+}
+
+button.logout:hover {
+  background-color: #cc0000; /* changes the background color when hovering over the button */
 }

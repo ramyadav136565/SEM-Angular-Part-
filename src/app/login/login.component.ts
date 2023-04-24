@@ -1,11 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthenticationServiceService } from '../services/AuthenticationServices/authentication-service.service'
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthInterceptor } from './auth-interceptor';
+import {  HttpRequest } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,6 +14,10 @@ export class LoginComponent implements OnInit {
   token: any;
   decodedToken: any;
   userRole: any;
+  invoiceFlag :any;
+  staffFlag:any;
+
+
   constructor(private loginService: AuthenticationServiceService, private router: Router) { }
   loginFlag: any;
   request: HttpRequest<any> = new HttpRequest<any>('GET', '/');
@@ -34,16 +36,21 @@ export class LoginComponent implements OnInit {
               this.loginService.loginFlag = true;
               this.loginService.staffFlag = true;
               this.loginService.invoiceFlag = true;
-              
-              this.router.navigate(['/staff'], { queryParams: { alert: 'success' } });
+              localStorage.setItem('loginFlag', this.loginService.loginFlag.toString());
+              localStorage.setItem('staffFlag',this.loginService.staffFlag.toString());
+              localStorage.setItem('invoiceFlag',this.loginService.invoiceFlag.toString());
+              this.router.navigate(['/staff']);
+              // { queryParams: { alert: 'success' } });
             }
             else {
-            
-              console.log(this.loginService.loginFlag);
               this.loginService.loginFlag = false;
               this.loginService.staffFlag = false;
               this.loginService.invoiceFlag = false;
-              this.router.navigate(['/university'], { queryParams: { alert: 'success' } });
+              localStorage.setItem('loginFlag', this.loginService.loginFlag.toString());
+              localStorage.setItem('staffFlag',this.loginService.staffFlag.toString());
+              localStorage.setItem('invoiceFlag',this.loginService.invoiceFlag.toString());
+              this.router.navigate(['/university']);
+              // ], { queryParams: { alert: 'success' } });
             }
             localStorage.setItem('token', response.token);
             window.alert("Login SuccessFully");
@@ -55,10 +62,12 @@ export class LoginComponent implements OnInit {
       });
 
   }
+  
 
   ngOnInit(): void {
+    
   }
-
+ 
   loginForm = new FormGroup({
     userIdOrEmail: new FormControl('', [
       Validators.required,

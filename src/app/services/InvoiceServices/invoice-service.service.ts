@@ -16,16 +16,13 @@ export class InvoiceServiceService{
   generateInvoice(data:any): Observable<any> {
     return this.Http.get<any>(this.url + 'GenerateInvoice/'+data.universityId+'/'+data.term);
   }
-
   createInvoice(data:any): Observable<any> {
-    // console.log(data);
     return this.Http.post<any>(this.url + 'CreateInvoice/'+data.universityId+'/'+data.term,data);
   }
 
   getInvoiceById(id:number): Observable<any> {
     return this.Http.get<any>(this.url + 'GetInvoiceDetailsById/'+id);
   }
-
   downloadCSV(id:number): Observable<any> {
     return this.Http.get<any>(this.url + 'invoices/'+id);
   }

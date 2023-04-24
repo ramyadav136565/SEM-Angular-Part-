@@ -19,7 +19,6 @@ export class BookServiceService {
   }
 
   addBook(data: any): Observable<any> {
-    console.log(data);
     return this.Http.post<any>(this.url + `AddBooks?BookName=${data.bookName}&BookAuthor=${data.bookAuthor}&BookPrice=${data.bookPrice}&Course=${data.course}`, data);
   }
   

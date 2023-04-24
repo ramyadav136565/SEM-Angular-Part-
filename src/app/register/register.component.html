@@ -26,21 +26,20 @@
                         formControlName="password">
                     <span class="form-text text-danger"
                         *ngIf="inputPassword && inputPassword.invalid && inputPassword.touched">
-                        Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one special character.
+                        Password must be at least 8 characters and contain at least one uppercase letter, one lowercase
+                        letter, and one special character.
                     </span>
                 </div>
 
                 <!-- For routing to user page-->
-           
+
                 <div class="row" style="margin-left: 100px;">
-                    <button class="btn btn-primary d-grid"  type="submit" [disabled]="registerForm.invalid"
-                        >Reset password</button>
-                    
-                <div style="padding-left: 20px;">
-                        <button  class="btn btn-primary d-grid" type="text"   [routerLink]="['/login']">Login</button>
+                    <button class="btn btn-primary d-grid" type="submit" [disabled]="registerForm.invalid">Reset
+                        password</button>
 
+                    <div style="padding-left: 20px;">
+                        <button class="btn btn-primary d-grid" type="text" [routerLink]="['/login']">Login</button>
+
+                    </div>
+                    <!-- For routing to user page-->
                 </div>
-                   <!-- For routing to user page-->
-                   </div>
-
-

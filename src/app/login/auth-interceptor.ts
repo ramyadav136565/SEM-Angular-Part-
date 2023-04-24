@@ -10,14 +10,12 @@ import jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
     decodedToken:any;
     userRole:any;
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
     if (token) {
     this.decodedToken = jwtDecode(token);
-    // console.log(this.decodedToken);
     this.userRole = this.decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
       request = request.clone({
         setHeaders: {

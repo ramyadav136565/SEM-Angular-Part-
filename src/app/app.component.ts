@@ -34,13 +34,13 @@ export class AppComponent {
                 } else if (this.currentRoute == ('/login')) {
                     this.showHead = false;
                 } else if (this.currentRoute == ('/login/register')) {
-                this.showHead = false; 
-                 } else {
+                    this.showHead = false;
+                } else {
                     this.showHead = true;
                 }
             }
             if (event instanceof NavigationError) {
-                if (event.url == ('/' || '/login'||'/login/register')) {
+                if (event.url == ('/' || '/login' || '/login/register')) {
                     this.showHead = false;
                 }
             }

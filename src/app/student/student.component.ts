@@ -43,7 +43,7 @@ export interface Student {
 })
 
 export class StudentComponent {
-  constructor(private studentService: StudentServiceService,private universityService:UniversitiyServiceService) { }
+  constructor(private studentService: StudentServiceService, private universityService: UniversitiyServiceService) { }
   dataSource = new MatTableDataSource<any>
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
@@ -53,19 +53,18 @@ export class StudentComponent {
   UniversityName: any;
 
   StudentList: any = [];
-  UniversityList:any=[];
- 
-  showUniversityList(){
-    this.universityService.showAllUniversities().subscribe(data=>{
-      this.UniversityList=data;
-      console.log("fjklkjhbhjdfrtyuio"+data);
+  UniversityList: any = [];
+
+  showUniversityList() {
+    this.universityService.showAllUniversities().subscribe(data => {
+      this.UniversityList = data;
       for (let i = 0; i < this.UniversityList.length; i++) {
         this.universities.push({
           value: this.UniversityList[i].universityId,
           viewValue: this.UniversityList[i].name
         });
       }
-  
+
     });
   }
 
@@ -110,7 +109,6 @@ export class StudentComponent {
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -125,7 +123,6 @@ export class StudentComponent {
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -140,7 +137,7 @@ export class StudentComponent {
           location.reload();
         },
         error: (error: any) => {
-          console.error(error);
+
         }
       });
 
@@ -172,7 +169,6 @@ export class StudentComponent {
   });
 
   stuSubmitted() {
-  
   }
 
   get validEmail(): FormControl {

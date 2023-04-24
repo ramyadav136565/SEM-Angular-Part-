@@ -18,7 +18,7 @@ export interface book {
   // bookId:any;
   bookName: any;
   bookAuthor: any;
-  bookPrice:any;
+  bookPrice: any;
   course: any;
 }
 
@@ -29,7 +29,7 @@ export interface book {
 })
 
 export class BookComponent {
-  constructor(private bookService : BookServiceService) { }
+  constructor(private bookService: BookServiceService) { }
   title: any;
   hideControl: any;
   formName: any = true;
@@ -44,7 +44,7 @@ export class BookComponent {
       this.BookList = data;
       this.dataSource = new MatTableDataSource(this.BookList);
       this.dataSource.paginator = this.paginator;
-      
+
     });
   }
 
@@ -58,11 +58,10 @@ export class BookComponent {
         bookId: new FormControl(data.bookId, Validators.required),
         bookName: new FormControl(data.bookName, Validators.required),
         bookAuthor: new FormControl(data.bookAuthor, Validators.required),
-        bookPrice: new FormControl(data.bookPrice,  [Validators.required,Validators.min(1)]),
+        bookPrice: new FormControl(data.bookPrice, [Validators.required, Validators.min(1)]),
         course: new FormControl(data.course, Validators.required),
         isDeleted: new FormControl(data.isDeleted, Validators.required)
       });
-      console.log(data);
     });
   }
 
@@ -78,7 +77,6 @@ export class BookComponent {
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -93,7 +91,6 @@ export class BookComponent {
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -105,11 +102,9 @@ export class BookComponent {
         next: (response: ArrayBuffer) => {
           const message = new TextDecoder().decode(response);
           window.alert(message);
-          console.log(message);
           location.reload();
         },
         error: (error: any) => {
-          console.error(error);
         }
       });
     }
@@ -121,7 +116,7 @@ export class BookComponent {
     bookName: new FormControl('', Validators.required),
     bookAuthor: new FormControl('', Validators.required),
     bookId: new FormControl('', Validators.required),
-    bookPrice: new FormControl('',  [Validators.required, Validators.min(1)]),//,Validators.min(1)  Validators.pattern(/^\d+$/)
+    bookPrice: new FormControl('', [Validators.required, Validators.min(1)]),//,Validators.min(1)  Validators.pattern(/^\d+$/)
     course: new FormControl('', Validators.required),
     isDeleted: new FormControl('', Validators.required)
   });
@@ -129,13 +124,11 @@ export class BookComponent {
   addForm = new FormGroup({
     bookName: new FormControl('', Validators.required),
     bookAuthor: new FormControl('', Validators.required),
-    bookPrice: new FormControl('',  [Validators.required, Validators.min(1)]),
+    bookPrice: new FormControl('', [Validators.required, Validators.min(1)]),
     course: new FormControl('', Validators.required)
   });
 
-
   bookSubmitted() {
-    console.log(this.updateForm.value);
   }
 
   // For modal
@@ -196,14 +189,14 @@ export class BookComponent {
   ];
 
   courses: Course[] = [
-        {value: 'B.tech', viewValue: 'B.tech'},
-        {value: 'BCA', viewValue: 'BCA'},
-        {value: 'BA', viewValue: 'BA'},
-      ];
-    
+    { value: 'B.tech', viewValue: 'B.tech' },
+    { value: 'BCA', viewValue: 'BCA' },
+    { value: 'BA', viewValue: 'BA' },
+  ];
+
   // For table
-  displayedColumns: string[] = ['id', 'bookName', 'bookAthor','bookPrice','course','action'];
+  displayedColumns: string[] = ['id', 'bookName', 'bookAthor', 'bookPrice', 'course', 'action'];
   filterData($event: any) {
     this.dataSource.filter = $event.target.value;
-}
+  }
 }

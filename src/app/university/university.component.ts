@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UniversitiyServiceService } from '../services/UniversityServices/universitiy-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ export interface Status {
   value: boolean;
   viewValue: string;
 }
-export interface University{
+export interface University {
   name: any;
   address: any;
 }
@@ -23,24 +23,24 @@ export interface University{
 
 export class UniversityComponent {
   showAlert = false;
-constructor(private universityService:UniversitiyServiceService,private route: ActivatedRoute) {}
+  constructor(private universityService: UniversitiyServiceService, private route: ActivatedRoute) { }
 
-dataSource = new MatTableDataSource<any>
-@ViewChild('paginator') paginator!: MatPaginator;
-@ViewChild(MatSort) matSort!: MatSort;
+  dataSource = new MatTableDataSource<any>
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
 
-title: any;
-hideControl: any;
-formName: any = true;
-isDeleted:any;
-
-  UniversityList:any=[];
-  showUniversityList(){
-    this.universityService.showAllUniversities().subscribe(data=>{
-      this.UniversityList=data;
+  title: any;
+  hideControl: any;
+  formName: any = true;
+  isDeleted: any;
+  loginFlag: any;
+  UniversityList: any = [];
+  showUniversityList() {
+    this.universityService.showAllUniversities().subscribe(data => {
+      this.UniversityList = data;
       this.dataSource = new MatTableDataSource(this.UniversityList);
       this.dataSource.paginator = this.paginator;
-      
+
     });
   }
 
@@ -51,12 +51,11 @@ isDeleted:any;
       this.openModel();
       this.title = "Update University"
       this.updateForm = new FormGroup({
-         universityId: new FormControl(data.universityId, Validators.required),
+        universityId: new FormControl(data.universityId, Validators.required),
         name: new FormControl(data.name, Validators.required),
         address: new FormControl(data.address, Validators.required),
         isDeleted: new FormControl(data.isDeleted, Validators.required)
       });
-      console.log(data);
     });
   }
 
@@ -72,7 +71,6 @@ isDeleted:any;
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -87,7 +85,6 @@ isDeleted:any;
           },
           error: (error: any) => {
             window.alert(error.error);
-            console.log(error);
           }
         });
     }
@@ -95,18 +92,16 @@ isDeleted:any;
 
   deleteUniversity(id: number): void {
     if (window.confirm("Are you sure you want to delete this university ?")) {
-    this.universityService.deleteUniversity(id).subscribe({
-      next: (response: ArrayBuffer) => {
-        const message = new TextDecoder().decode(response);
-        window.alert(message);
-        console.log(message);
-        location.reload();
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    });
-  }
+      this.universityService.deleteUniversity(id).subscribe({
+        next: (response: ArrayBuffer) => {
+          const message = new TextDecoder().decode(response);
+          window.alert(message);
+          location.reload();
+        },
+        error: (error: any) => {
+        }
+      });
+    }
   }
 
   panelOpenState1 = true;
@@ -124,7 +119,6 @@ isDeleted:any;
   });
 
   uniSubmitted() {
-    console.log(this.updateForm.value);
   }
 
   // For modal
@@ -151,9 +145,10 @@ isDeleted:any;
         this.showAlert = true;
         setTimeout(() => {
           this.showAlert = false;
-        }, 2000); 
+        }, 2000);
       }
     });
+    this.loginFlag = localStorage.getItem('loginFlag') === 'true';
   }
 
   get validName(): FormControl {
@@ -176,9 +171,9 @@ isDeleted:any;
     { value: false, viewValue: 'Enabled' },
   ];
 
-   // For table
-  displayedColumns: string[] = ['id', 'name', 'address','isActive', 'action'];
+  // For table
+  displayedColumns: string[] = ['id', 'name', 'address', 'isActive', 'action'];
   filterData($event: any) {
     this.dataSource.filter = $event.target.value;
-}
+  }
 }

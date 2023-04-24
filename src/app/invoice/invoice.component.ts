@@ -44,7 +44,7 @@ export class InvoiceComponent {
 @ViewChild(MatSort) matSort!: MatSort;
   title: any;
   hideControl: any;
-  loginFlag:any=false;
+  loginFlag:any;
   invoiceId: any;
   Tax:any;
   TotalAmount :any;
@@ -64,14 +64,14 @@ invoiceForm = new FormGroup({
 showUniversityList() {
   this.universityService.showAllUniversities().subscribe(data => {
     this.UniversityList = data;
-    console.log(data);
+
     for (let i = 0; i < this.UniversityList.length; i++) {
       this.universities.push({
         value: this.UniversityList[i].universityId,
         viewValue: this.UniversityList[i].name
       });
     }
-    console.log(this.universities)
+ 
   });
 }
 
@@ -95,13 +95,10 @@ showUniversityList() {
             this.Term=response.term;
             this.Tax = response.tax;
             this.TotalAmount = response.totalAmount;
-            // window.alert("Invoice generated SuccessFully");
-            // location.reload();
           },
           error: (error: any) => {
             window.alert(error.error);
             location.reload();
-            console.log(error);
           }
         });
     }
@@ -124,7 +121,6 @@ showUniversityList() {
       this.invoiceService.createInvoice(this.invoiceForm.value)
         .subscribe({
           next: (response) => {
-            console.log(response);
             this.CloseModel();
             window.alert("Invoice generated SuccessFully");
             location.reload();
@@ -132,7 +128,6 @@ showUniversityList() {
           error: (error: any) => {
             window.alert(error.error);
             location.reload();
-            console.log(error);
           }
         });
     }
@@ -142,15 +137,13 @@ showUniversityList() {
         const blob = new Blob([data], {type: 'application/octet-stream'});
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'InvoiceDetailsId'+ invoiceId +'.csv';
+        link.download = 'Invoice-'+ invoiceId +'.csv';
         link.click();
       });
     }
   // For table
   displayedColumns: string[] = ['id', 'universityName', 'term', 'bookQuantity', 'tax', 'totalAmount', 'action'];
   invoiceSubmitted(){
-    console.log(this.invoiceForm.value);
-    
   }
 
   // For Modal
@@ -158,7 +151,7 @@ showUniversityList() {
     const modelDiv = document.getElementById('myModal');
     if(modelDiv!= null) {
       modelDiv.style.display = 'block';
-    } 
+    }
     this.invoiceForm.reset();
   }
 
@@ -212,7 +205,7 @@ showUniversityList() {
   }
 
   ngOnInit(): void {
-    this.loginFlag=this.loginService.loginFlag;
+    this.loginFlag = localStorage.getItem('loginFlag') === 'true';
     this.showUniversityList();
     this.ShowAllInvoices();
   }
@@ -229,9 +222,6 @@ showUniversityList() {
   ];
 
   isPanelOpen = false;
-
-  
-
   filterData($event: any) {
     this.dataSource.filter = $event.target.value;
 }

@@ -6,28 +6,27 @@ import { AuthenticationServiceService } from '../services/AuthenticationServices
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.css']
 })
-export class SideNavComponent implements OnInit{
-  pageShow:any;
-  SideNavItem:any=[]
-constructor(private loginService:AuthenticationServiceService) {
- 
-}
+export class SideNavComponent implements OnInit {
+  pageShow: any;
+  SideNavItem: any = []
+  constructor(private loginService: AuthenticationServiceService) {
 
+  }
   ngOnInit(): void {
-   
     this.SideNavItem = [
       {
-        showForAdmin: this.loginService.staffFlag,
+        showForAdmin: localStorage.getItem('staffFlag') === 'true',
+        // showForAdmin: this.loginService.staffFlag,
         title: 'Manage Staff',
         link: 'staff',
       },
-  
+
       {
         showForAdmin: this.loginService.universityFlag,
         title: 'Manage Universities',
         link: 'university',
       },
-  
+
       {
         showForAdmin: this.loginService.studentFlag,
         title: 'Manage Students',
@@ -38,8 +37,8 @@ constructor(private loginService:AuthenticationServiceService) {
         title: 'Manage Books',
         link: 'book',
       },
-      {
-        showForAdmin: this.loginService.invoiceFlag,
+      {showForAdmin: localStorage.getItem('invoiceFlag') === 'true',
+        // showForAdmin: this.loginService.invoiceFlag,
         title: 'Generate Invoice',
         link: 'invoice',
       },
@@ -49,7 +48,5 @@ constructor(private loginService:AuthenticationServiceService) {
         link: 'bookAllocate',
       },
     ]
-  
   }
-  
 }

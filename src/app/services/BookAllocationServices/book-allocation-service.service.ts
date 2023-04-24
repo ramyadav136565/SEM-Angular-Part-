@@ -21,10 +21,9 @@ export class BookAllocationServiceService{
   }
   getBookAllocationByUniversityIdAndTerm(data:any): Observable<any> {
     return this.Http.get<any>(this.url + 'GetAllocatedBooksToUniversity/'+data.universityId+'/'+data.term);
-  }//pending to handle exception in backend
+  }
 
   allocateBookToStudent(data:any): Observable<any> {
-    console.log(data);
     return this.Http.post<any>(this.url + 'AllocateBookToStudent/'+data.studentId+'/'+data.bookId+'/'+data.universityId,data);
   }
   updateBookAllocation(data:any): Observable<any> {
@@ -34,8 +33,7 @@ export class BookAllocationServiceService{
     return this.Http.get<any>(this.url + 'GetBookAllocationById/'+id);
   }
 
-  
-  getInvoiceById(id:number): Observable<any> {
-    return this.Http.get<any>(this.url + 'GetInvoiceDetailsById/'+id);
-  }
+  // getInvoiceById(id:number): Observable<any> {
+  //   return this.Http.get<any>(this.url + 'GetInvoiceDetailsById/'+id);
+  // }
 }
