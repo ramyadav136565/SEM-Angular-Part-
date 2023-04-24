@@ -5,6 +5,7 @@
     outline: 0;
     border-radius: 0.3rem;
     box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    /* width: 1200px; */
 }
 
 .modal-dialog3 {
@@ -66,3 +67,14 @@ mat-label {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     min-height: 20px;
 }
+.universityName{
+    width: 200;
+    padding-left: 50px;
+}
+.tax1{
+    padding-left: 13px;
+}
+.tax{
+    padding-left: 150px;
+}
+  

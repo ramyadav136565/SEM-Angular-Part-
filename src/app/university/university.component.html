@@ -1,17 +1,22 @@
+<div *ngIf="showAlert" class="alert alert-success">
+    Login Successful!
+  </div>
+
 <mat-accordion>
   <mat-expansion-panel disabled expanded>
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title style="color: black;" >
         <h2>University Details</h2>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="row">
       <div class="col">
-        <div class="col">
-          Search by Name: <input type="text" id="x">
+        <div class="col" style="padding-left: 1px;">
+            <input style="width: 250px;height: 35px;" matInput placeholder="Enter Name" autocomplete="off" (keyup)="filterData($event)">
+              
         </div>
       </div>
-      <div class="col" style="margin-right: 50px;">
+      <div class="col" style="padding-left:100px">
         <button type="button" class="btn btn-primary" (click)="openModel()">
           Add University
         </button>
@@ -80,28 +85,34 @@
     </div>
 
     <div class="table-container">
-      <table mat-table [dataSource]="UniversityList">
+      <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> University Id </th>
+          <th mat-header-cell *matHeaderCellDef> <strong>University Id </strong> </th>
           <td mat-cell *matCellDef="let element"> {{element.universityId}} </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <th mat-header-cell *matHeaderCellDef>  <strong>Name</strong> </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <th mat-header-cell *matHeaderCellDef>  <strong>Address</strong> </th>
           <td mat-cell *matCellDef="let element"> {{element.address}} </td>
         </ng-container>
+        
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef> <strong>Delete</strong> </th>
+          <td mat-cell *matCellDef="let element">{{ (element.isDeleted === false) ? 'NO' : 'YES' }}</td>
+      </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef> Action </th>
-          <td mat-cell *matCellDef="let element">
 
-            <button class="btn" id="btn1" (click)="getUniversityById(element.universityId)"><i
+        <ng-container matColumnDef="action" >
+          <th mat-header-cell *matHeaderCellDef style="width: 1%">  <strong>Action</strong> </th>
+          <td mat-cell *matCellDef="let element" style="width: 15%">
+
+            <button style="padding-right: 10px;" class="btn" id="btn1" (click)="getUniversityById(element.universityId)"><i
                 class="fa fa-edit"></i></button>
             <button class="btn" id="btn1" (click)="deleteUniversity(element.universityId)" style="color:red"><i
                 class="fa fa-trash"></i></button>
@@ -112,6 +123,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <mat-paginator #paginator [pageSize]="6" [pageSizeOptions]="[1, 2, 3, 7]" showFirstLastButtons="true">
+      </mat-paginator>
+  
     </div>
 
   </mat-expansion-panel>

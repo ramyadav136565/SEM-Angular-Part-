@@ -7,12 +7,10 @@
     display: flex;
     justify-content: space-between;
 }
-
 .user-info{
     display: flex;
     align-items: center;
 }
-
 /* mat-toolbar user-info{
     display: flex;
     align-items: center;
@@ -24,4 +22,3 @@
   font-size: 22px;
   cursor: pointer;
 }
-  

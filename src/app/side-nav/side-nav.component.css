@@ -1,0 +1,33 @@
+/* .side{
+    background-color:#3F51B5;
+    padding-bottom: 286px;
+    border-top:  1px solid black;
+    border-bottom:  1px solid black;
+} */
+
+.side {
+    width: 200px;
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    
+  }
+  
+  .mat-list-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .mat-list-item:hover {
+    background-color: #eee;
+  }
+  
+  .active {
+    background-color: #f2f2f2;
+  }
+  
+ 

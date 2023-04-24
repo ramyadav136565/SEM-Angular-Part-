@@ -1,4 +1,4 @@
-.container-fluid{
+.container-fluid {
     height: 50vh;
     display: flex;
     justify-content: center;
@@ -7,17 +7,17 @@
 
 .modal-dialog {
     margin: 20vh auto 0px auto;
-    border: 1px solid rgba(0,0,0,.5);
+    border: 1px solid rgba(0, 0, 0, .5);
     border-radius: 0.3rem;
     outline: 0;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
 table {
     width: 100%;
 }
 
-.table-container{
+.table-container {
     padding-top: 20px;
     margin: 0 auto;
     max-width: 1348px;
@@ -29,3 +29,5 @@ table {
     padding: 12px 12px;
     font-size: 20px;
 }
+
+  

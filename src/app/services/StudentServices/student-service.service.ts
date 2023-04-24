@@ -16,7 +16,6 @@ export class StudentServiceService {
   deleteStudent(id: Number): Observable<ArrayBuffer> {
     return this.Http.delete(this.url + 'DeleteStudent/' + id, { responseType: 'arraybuffer' });
   }
-  
   addStudent(data:any): Observable<any> {
     return this.Http.post<any>(this.url + 'AddStudent',data);
   }

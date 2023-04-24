@@ -1,19 +1,26 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { AuthenticationServiceService } from '../services/AuthenticationServices/authentication-service.service';
+import { InvoiceServiceService } from '../services/InvoiceServices/invoice-service.service';
+import { UniversitiyServiceService } from '../services/UniversityServices/universitiy-service.service';
 
-export interface PeriodicElement {
-  id: number;
-  universityName: string;
-  term: number;
-  bookQuantity: number;
-  tax: number;
-  totalAmount: number;
-  action: number;
+
+export interface Invoice {
+  
+  universityId: any;
+  term: any;
+  bookQuantity: any;
+  tax: any;
+  totalAmount: any;
+  // action: number;
 }
  
 interface University {
-  value: string;
+  value: number;
   viewValue: string;
 }
 
@@ -21,11 +28,6 @@ interface Term {
   value: number;
   viewValue: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1001, universityName: 'Solicon', term:8, bookQuantity:6, tax:10, totalAmount:1870, action: 1},
-  {id: 1002, universityName: 'DAVV', term: 7, bookQuantity:5, tax:1, totalAmount:1717, action: 2},
-  {id: 1003, universityName: 'HIT', term: 8, bookQuantity:8, tax:10, totalAmount:1870, action: 1}
-];
 
 @Component({
   selector: 'app-invoice',
@@ -34,22 +36,118 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class InvoiceComponent {
-  panelOpenState = true;
-  panelOpenState2 = true;
-  total = 5000;
-  taxes = (this.total*0.01)
-  totAmt = (this.total + this.taxes);
 
+  constructor(private http: HttpClient,private invoiceService:InvoiceServiceService,private universityService:UniversitiyServiceService,private loginService :AuthenticationServiceService) { }
+
+  dataSource = new MatTableDataSource<any>
+@ViewChild('paginator') paginator!: MatPaginator;
+@ViewChild(MatSort) matSort!: MatSort;
+  title: any;
+  hideControl: any;
+  loginFlag:any=false;
+  invoiceId: any;
+  Tax:any;
+  TotalAmount :any;
+  UniversityId:any;
+  Term:any;
+  panelOpenState = true;  
+  panelOpenState2 = true;
+  InvoiceList: any = [];
+  UniversityList:any=[];
+  universities: University[] = [];
+
+invoiceForm = new FormGroup({
+  universityId: new FormControl('', Validators.required),
+  term: new FormControl('', Validators.required)
+});
+
+showUniversityList() {
+  this.universityService.showAllUniversities().subscribe(data => {
+    this.UniversityList = data;
+    console.log(data);
+    for (let i = 0; i < this.UniversityList.length; i++) {
+      this.universities.push({
+        value: this.UniversityList[i].universityId,
+        viewValue: this.UniversityList[i].name
+      });
+    }
+    console.log(this.universities)
+  });
+}
+
+
+  ShowAllInvoices() {
+    this.invoiceService.showAllInvoices().subscribe(data => {
+      this.InvoiceList = data;
+      this.dataSource = new MatTableDataSource(this.InvoiceList);
+       this.dataSource.paginator = this.paginator;
+
+    });
+  }
+
+  GenerateInvoice() {
+      this.hideControl = false;
+      this.invoiceService.generateInvoice(this.invoiceForm.value)
+        .subscribe({
+          next: (response) => {
+            this.isPanelOpen=true;
+            this.UniversityId=response.universityId;
+            this.Term=response.term;
+            this.Tax = response.tax;
+            this.TotalAmount = response.totalAmount;
+            // window.alert("Invoice generated SuccessFully");
+            // location.reload();
+          },
+          error: (error: any) => {
+            window.alert(error.error);
+            location.reload();
+            console.log(error);
+          }
+        });
+    }
+
+
+    download() {
+      this.invoiceService.downloadCSV(this.invoiceId).subscribe(response => {
+        const blob = new Blob([response], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'InvoiceDetails.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+    CreateInvoice() {
+      this.hideControl = false;
+      this.invoiceService.createInvoice(this.invoiceForm.value)
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+            this.CloseModel();
+            window.alert("Invoice generated SuccessFully");
+            location.reload();
+          },
+          error: (error: any) => {
+            window.alert(error.error);
+            location.reload();
+            console.log(error);
+          }
+        });
+    }
+
+    downloadCSV(invoiceId: number): void {
+      this.http.get(this.invoiceService.url + 'invoices/'+invoiceId, { responseType: 'arraybuffer' }).subscribe((data: ArrayBuffer) => {
+        const blob = new Blob([data], {type: 'application/octet-stream'});
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'InvoiceDetailsId'+ invoiceId +'.csv';
+        link.click();
+      });
+    }
   // For table
   displayedColumns: string[] = ['id', 'universityName', 'term', 'bookQuantity', 'tax', 'totalAmount', 'action'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  // For Form
-  invoiceForm = new FormGroup({
-    uniId: new FormControl('', Validators.required),
-    term: new FormControl('', Validators.required),
-  });
-
   invoiceSubmitted(){
     console.log(this.invoiceForm.value);
     
@@ -100,8 +198,6 @@ export class InvoiceComponent {
 
   openAndClose1(){
     this.openModel3();
-    // this.CloseModel();
-    // this.isPanelOpen = false;
   }
 
   closeModal1n2(){
@@ -109,28 +205,17 @@ export class InvoiceComponent {
     this.CloseModel2();
     this.isPanelOpen = false;
   }
-  // openAndCloseModels() {
-  //   // this.openModel();
-  //   this.CloseModel2();
-  //   this.CloseModel();
-  // }
-
-  // closeModal1n2() {
-  //   this.CloseModel();
-  //   this.CloseModel2();
-  // }
-
   closeModal3n1(){
     this.CloseModel3();
     this.CloseModel();
     this.isPanelOpen = false;
   }
 
-  universities: University[] = [
-    {value: '1001', viewValue: 'Solicon'},
-    {value: '1002', viewValue: 'DAVV'},
-    {value: '1003', viewValue: 'HIT'},
-  ];
+  ngOnInit(): void {
+    this.loginFlag=this.loginService.loginFlag;
+    this.showUniversityList();
+    this.ShowAllInvoices();
+  }
 
   terms: Term[] = [
     {value: 1, viewValue: '1st sem'},
@@ -140,19 +225,14 @@ export class InvoiceComponent {
     {value: 5, viewValue: '5th sem'},
     {value: 6, viewValue: '6th sem'},
     {value: 7, viewValue: '7th sem'},
-    {value: 8, viewValue: '8th sem'},
-    {value: 9, viewValue: '9th sem'},
-    {value: 10, viewValue: '10th sem'},
-    {value: 11, viewValue: '11th sem'},
-    {value: 12, viewValue: '12th sem'},
+    {value: 8, viewValue: '8th sem'}
   ];
 
   isPanelOpen = false;
 
   
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  filterData($event: any) {
+    this.dataSource.filter = $event.target.value;
+}
 }

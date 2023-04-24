@@ -4,8 +4,16 @@
     min-height: 100vh;
     z-index: 1;
 }
-  
+
 mat-sidenav-container {
     flex-grow: 2;
 }
+/* mat-sidenav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+   height: 20px;
+      
+  } */
   

@@ -1,13 +1,15 @@
 
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UniversitiyServiceService } from '../services/UniversityServices/universitiy-service.service';
-
+import { ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 export interface Status {
   value: boolean;
   viewValue: string;
 }
-
 export interface University{
   name: any;
   address: any;
@@ -20,18 +22,25 @@ export interface University{
 })
 
 export class UniversityComponent {
-constructor(private universityService:UniversitiyServiceService) {}
+  showAlert = false;
+constructor(private universityService:UniversitiyServiceService,private route: ActivatedRoute) {}
+
+dataSource = new MatTableDataSource<any>
+@ViewChild('paginator') paginator!: MatPaginator;
+@ViewChild(MatSort) matSort!: MatSort;
 
 title: any;
 hideControl: any;
 formName: any = true;
-
+isDeleted:any;
 
   UniversityList:any=[];
   showUniversityList(){
     this.universityService.showAllUniversities().subscribe(data=>{
       this.UniversityList=data;
-      console.log(data);
+      this.dataSource = new MatTableDataSource(this.UniversityList);
+      this.dataSource.paginator = this.paginator;
+      
     });
   }
 
@@ -113,8 +122,7 @@ formName: any = true;
     name: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required)
   });
-  
- 
+
   uniSubmitted() {
     console.log(this.updateForm.value);
   }
@@ -138,6 +146,14 @@ formName: any = true;
   ngOnInit(): void {
     this.showUniversityList();
     this.title = "Add University"
+    this.route.queryParams.subscribe((params: any) => {
+      if (params['alert'] === 'success') {
+        this.showAlert = true;
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 2000); 
+      }
+    });
   }
 
   get validName(): FormControl {
@@ -156,10 +172,13 @@ formName: any = true;
   }
 
   status: Status[] = [
-    { value: true, viewValue: 'Inctive' },
-    { value: false, viewValue: 'Active' },
+    { value: true, viewValue: 'Disabled' },
+    { value: false, viewValue: 'Enabled' },
   ];
 
    // For table
-  displayedColumns: string[] = ['id', 'name', 'address', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'address','isActive', 'action'];
+  filterData($event: any) {
+    this.dataSource.filter = $event.target.value;
+}
 }

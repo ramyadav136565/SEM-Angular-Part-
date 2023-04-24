@@ -1,40 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AuthenticationServiceService } from '../services/AuthenticationServices/authentication-service.service';
 
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.css']
 })
-export class SideNavComponent {
-  SideNavItem = [
-    {
-      title: 'Manage Staff',
-      link: 'staff',
-    },
-    {
-      title: 'Manage Universities',
-      link: 'university',
-    },
-    {
-      title: 'Manage Students',
-      link: 'student',
-    },
-    {
-      title: 'Manage Books',
-      link: 'book',
-    },
-    {
-      title: 'Generate Invoice',
-      link: 'invoice',
-    },
-    {
-      title: 'Book Allocation',
-      link: 'bookAllocate',
-    },
-    {
-      title: 'Check',
-      link: 'checkD',
-    },
-  ]
+export class SideNavComponent implements OnInit{
+  pageShow:any;
+  SideNavItem:any=[]
+constructor(private loginService:AuthenticationServiceService) {
+ 
+}
+
+  ngOnInit(): void {
+   
+    this.SideNavItem = [
+      {
+        showForAdmin: this.loginService.staffFlag,
+        title: 'Manage Staff',
+        link: 'staff',
+      },
+  
+      {
+        showForAdmin: this.loginService.universityFlag,
+        title: 'Manage Universities',
+        link: 'university',
+      },
+  
+      {
+        showForAdmin: this.loginService.studentFlag,
+        title: 'Manage Students',
+        link: 'student',
+      },
+      {
+        showForAdmin: this.loginService.bookFlag,
+        title: 'Manage Books',
+        link: 'book',
+      },
+      {
+        showForAdmin: this.loginService.invoiceFlag,
+        title: 'Generate Invoice',
+        link: 'invoice',
+      },
+      {
+        showForAdmin: this.loginService.bookAllocationFlag,
+        title: 'Book Allocation',
+        link: 'bookAllocate',
+      },
+    ]
+  
+  }
+  
 }

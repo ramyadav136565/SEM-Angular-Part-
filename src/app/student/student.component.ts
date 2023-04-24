@@ -1,8 +1,10 @@
-
-
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { StudentServiceService } from '../services/StudentServices/student-service.service';
+import { UniversitiyServiceService } from '../services/UniversityServices/universitiy-service.service';
 
 export interface Status {
   value: boolean;
@@ -26,14 +28,12 @@ export interface Course {
 }
 
 export interface Student {
-  
   fullName: any;
   address: any;
   email: any;
   universityId: any;
   term: any;
   course: any;
-  
 }
 
 @Component({
@@ -43,20 +43,41 @@ export interface Student {
 })
 
 export class StudentComponent {
-  constructor(private studentService: StudentServiceService,) { }
-
+  constructor(private studentService: StudentServiceService,private universityService:UniversitiyServiceService) { }
+  dataSource = new MatTableDataSource<any>
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
   title: any;
   hideControl: any;
   formName: any = true;
   UniversityName: any;
 
   StudentList: any = [];
+  UniversityList:any=[];
+ 
+  showUniversityList(){
+    this.universityService.showAllUniversities().subscribe(data=>{
+      this.UniversityList=data;
+      console.log("fjklkjhbhjdfrtyuio"+data);
+      for (let i = 0; i < this.UniversityList.length; i++) {
+        this.universities.push({
+          value: this.UniversityList[i].universityId,
+          viewValue: this.UniversityList[i].name
+        });
+      }
+  
+    });
+  }
+
   ShowAllStudents() {
     this.studentService.showAllStudents().subscribe(data => {
       this.StudentList = data;
-      console.log(data);
+      this.dataSource = new MatTableDataSource(this.StudentList);
+      this.dataSource.paginator = this.paginator;
+
     });
   }
+
 
   GetStudentById(id: number) {
     this.hideControl = true;
@@ -74,7 +95,6 @@ export class StudentComponent {
         course: new FormControl(data.course, Validators.required),
         isDeleted: new FormControl(data.isDeleted, Validators.required)
       });
-      console.log(data);
     });
   }
 
@@ -152,7 +172,7 @@ export class StudentComponent {
   });
 
   stuSubmitted() {
-    console.log(this.updateForm.value);
+  
   }
 
   get validEmail(): FormControl {
@@ -196,6 +216,7 @@ export class StudentComponent {
   }
 
   ngOnInit(): void {
+    this.showUniversityList();
     this.ShowAllStudents();
     this.title = "Add Student"
   }
@@ -205,12 +226,7 @@ export class StudentComponent {
     { value: false, viewValue: 'Active' },
   ];
 
-  universities: University[] = [
-    { value: 1001, viewValue: 'Solicon' },
-    { value: 1002, viewValue: 'DAVV' },
-    { value: 1003, viewValue: 'HIT' }
-
-  ];
+  universities: University[] = [];
 
 
   terms: Term[] = [
@@ -225,12 +241,17 @@ export class StudentComponent {
   ];
 
   courses: Course[] = [
-    { value: 'B.Tech', viewValue: 'B.Tech' },
+    { value: 'B.tech', viewValue: 'B.tech' },
     { value: 'BCA', viewValue: 'BCA' },
     { value: 'BA', viewValue: 'BA' },
   ];
 
   displayedColumns: string[] = ['stuId', 'name', 'address', 'university', 'email', 'course', 'term', 'isDeleted', 'action'];
+  filterData($event: any) {
+    this.dataSource.filter = $event.target.value;
+
+  }
+
 }
 
 

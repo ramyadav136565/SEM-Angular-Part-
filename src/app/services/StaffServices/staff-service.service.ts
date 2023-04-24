@@ -14,8 +14,8 @@ export class StaffServiceService {
   showAllUsers():Observable<any>{
     return this.Http.get(this.url+"ShowAllUsers");
   }
-  deleteUsers(id: Number): Observable<ArrayBuffer> {
-    return this.Http.delete(this.url + 'DeleteUser' +id, { responseType: 'arraybuffer' });
+  deleteUser(id: Number): Observable<ArrayBuffer> {
+    return this.Http.delete(this.url + 'DeleteUser/' + id, { responseType: 'arraybuffer' });
   }
   
   addUsers(data:any): Observable<any> {

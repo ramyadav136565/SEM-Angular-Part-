@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
+import { Input, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
 import { PageFooterComponent } from './page-footer/page-footer.component';
 import { PageHeaderComponent } from './page-header/page-header.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
@@ -27,14 +24,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import { DialogComponent } from './dialog/dialog.component';
-import { CheckDComponent } from './check-d/check-d.component';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BookComponent } from './book/book.component';
 import { BookAllocationComponent } from './book-allocation/book-allocation.component';
-//  import { UniversitiyServiceService } from './services/UniversityServices/universitiy-service.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RegisterComponent } from './register/register.component';
+import { AuthInterceptor } from './login/auth-interceptor';
 
 
 @NgModule({
@@ -48,13 +44,13 @@ import { HttpClientModule } from '@angular/common/http';
     UniversityComponent,
     StudentComponent,
     InvoiceComponent,
-    DialogComponent,
-    CheckDComponent,
     BookComponent,
     BookAllocationComponent,
-
+    RegisterComponent,
   ],
+
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     MatSidenavModule,
@@ -72,9 +68,11 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MatCardModule,
     HttpClientModule
-
   ],
-  // providers: [UniversitiyServiceService],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule{
+}

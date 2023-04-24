@@ -1,11 +1,9 @@
-
-
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BookServiceService } from '../services/BookServices/book-service.service';
-
-
-
 
 export interface Status {
   value: boolean;
@@ -15,7 +13,6 @@ export interface Course {
   value: string;
   viewValue: string;
 }
-
 
 export interface book {
   // bookId:any;
@@ -33,17 +30,21 @@ export interface book {
 
 export class BookComponent {
   constructor(private bookService : BookServiceService) { }
-
- 
   title: any;
   hideControl: any;
   formName: any = true;
+
+  dataSource = new MatTableDataSource<any>
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
 
   BookList: any = [];
   showBookList() {
     this.bookService.showAllBooks().subscribe(data => {
       this.BookList = data;
-      console.log(data);
+      this.dataSource = new MatTableDataSource(this.BookList);
+      this.dataSource.paginator = this.paginator;
+      
     });
   }
 
@@ -190,8 +191,8 @@ export class BookComponent {
   }
 
   status: Status[] = [
-    { value: true, viewValue: 'Inctive' },
-    { value: false, viewValue: 'Active' },
+    { value: true, viewValue: 'Unavailable' },
+    { value: false, viewValue: 'Available' },
   ];
 
   courses: Course[] = [
@@ -202,4 +203,7 @@ export class BookComponent {
     
   // For table
   displayedColumns: string[] = ['id', 'bookName', 'bookAthor','bookPrice','course','action'];
+  filterData($event: any) {
+    this.dataSource.filter = $event.target.value;
+}
 }

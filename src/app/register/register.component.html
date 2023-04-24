@@ -1,0 +1,46 @@
+<div class="container-fluid" style="padding-top: 5%;">
+    <!-- For image and form holder -->
+    <form [formGroup]="registerForm" (ngSubmit)="RegisterUser()" class="border p-3 rounded" style="width:800px;">
+        <div class="row" style="border: 0.1px solid rgb(196, 181, 181);">
+
+            <div class="col-md-5">
+                <img src="../../assets/images/login_lms4.jpg" style="height: 300px; width: 300px">
+            </div>
+
+            <div class="col-md-7" style="margin-top: 50px;">
+                <div class="row" style="margin-bottom: 20px; margin-left: 10px;">
+                    <h3>Reset Password</h3>
+                </div>
+
+                <div class="row mb-2" style="margin-left: 1px;margin-right: 10px; padding-bottom: 15px;">
+                    <label for="inputEmail" class="sr-only">Email</label>
+                    <input type="email" id="userIdOrEmail" class="form-control" placeholder="Email address" required
+                        formControlName="userIdOrEmail">
+                    <span class="form-text text-danger" *ngIf="inputEmail && inputEmail.invalid && inputEmail.touched">
+                        Email is invalid
+                    </span>
+                </div>
+                <div class="row mb-2" style="margin-left: 1px;margin-right: 10px;padding-bottom: 15px;">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Password" required
+                        formControlName="password">
+                    <span class="form-text text-danger"
+                        *ngIf="inputPassword && inputPassword.invalid && inputPassword.touched">
+                        Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one special character.
+                    </span>
+                </div>
+
+                <!-- For routing to user page-->
+           
+                <div class="row" style="margin-left: 100px;">
+                    <button class="btn btn-primary d-grid"  type="submit" [disabled]="registerForm.invalid"
+                        >Reset password</button>
+                    
+                <div style="padding-left: 20px;">
+                        <button  class="btn btn-primary d-grid" type="text"   [routerLink]="['/login']">Login</button>
+
+                </div>
+                   <!-- For routing to user page-->
+                   </div>
+
+
