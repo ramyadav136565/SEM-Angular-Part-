@@ -1,6 +1,6 @@
 <mat-list class="side">
   <ng-container *ngFor="let option of SideNavItem">
-    <mat-list-item role="listitem" *ngIf="option.showForAdmin " routerLink="/{{option.link}}" routerLinkActive="active">
+    <mat-list-item style="cursor:pointer;margin-bottom: 5px;" role="listitem" *ngIf="option.showForAdmin " routerLink="/{{option.link}}" routerLinkActive="active">
       {{option.title | titlecase}}
     </mat-list-item>
   </ng-container>

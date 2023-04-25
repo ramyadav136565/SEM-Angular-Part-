@@ -1,22 +1,21 @@
 <mat-accordion>
   <mat-expansion-panel disabled expanded>
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title  style="color: black; border-radius: 16px;">
         <h2>Book Allocation</h2>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="row">
       <div class="col">
-        <div class="col">
-          <input style="width: 250px;height: 35px;" matInput placeholder="Enter Name" autocomplete="off"
+        <div class="col" style="padding-left: 1px;">
+            <input style="width: 250px;height: 35px;border-radius: 16px;" matInput placeholder="Enter Name" autocomplete="off"
             (keyup)="filterData($event)">
         </div>
       </div>
-      <div class="col" style="margin-right: 50px;">
-        <button type="button" class="btn btn-primary" (click)="openModel()">
-          Allocate Books
-        </button>
+      <div class="mb-3 text-left">
+        <button type="button" class="btn btn-primary" (click)="openModel()"> Allocate Books</button>
       </div>
+      
     </div>
     <div class="modal" id="myModal">
       <div class="modal-dialog">

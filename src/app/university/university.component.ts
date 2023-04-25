@@ -6,6 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { HttpClient } from '@angular/common/http';
+import { DownloadServicesService } from '../services/DownloadServices/download-services.service';
+
 export interface Status {
   value: boolean;
   viewValue: string;
@@ -23,7 +26,10 @@ export interface University {
 
 export class UniversityComponent {
   showAlert = false;
-  constructor(private universityService: UniversitiyServiceService, private route: ActivatedRoute) { }
+  constructor(private universityService: UniversitiyServiceService, private route: ActivatedRoute,
+    private downloadfiles:DownloadServicesService,
+    private http:HttpClient
+    ) { }
 
   dataSource = new MatTableDataSource<any>
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -102,6 +108,17 @@ export class UniversityComponent {
         }
       });
     }
+  }
+  downloadFile() {
+    this.http.get(this.downloadfiles.universityurl, { responseType: 'blob' })
+      .subscribe(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Universitydata.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   panelOpenState1 = true;

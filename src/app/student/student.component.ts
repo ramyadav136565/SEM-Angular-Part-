@@ -1,8 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DownloadServicesService } from '../services/DownloadServices/download-services.service';
 import { StudentServiceService } from '../services/StudentServices/student-service.service';
 import { UniversitiyServiceService } from '../services/UniversityServices/universitiy-service.service';
 
@@ -43,7 +45,11 @@ export interface Student {
 })
 
 export class StudentComponent {
-  constructor(private studentService: StudentServiceService, private universityService: UniversitiyServiceService) { }
+  constructor(private studentService: StudentServiceService, 
+    private universityService: UniversitiyServiceService ,
+    private downloadfiles:DownloadServicesService,
+    private http:HttpClient
+    ) { }
   dataSource = new MatTableDataSource<any>
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
@@ -144,6 +150,17 @@ export class StudentComponent {
     }
   }
 
+  downloadFile() {
+    this.http.get(this.downloadfiles.studenturl, { responseType: 'blob' })
+      .subscribe(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Studentdata.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
+  }
   // For panel
   panelOpenState1 = true;
 

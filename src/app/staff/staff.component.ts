@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthenticationServiceService } from '../services/AuthenticationServices/authentication-service.service';
 import { StaffServiceService } from '../services/StaffServices/staff-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { DownloadServicesService } from '../services/DownloadServices/download-services.service';
 
 export interface Status {
   value: boolean;
@@ -36,7 +38,10 @@ export class StaffComponent implements OnInit {
 
   constructor(private StaffServiceService: StaffServiceService,
     private loginService: AuthenticationServiceService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private downloadfiles:DownloadServicesService,
+    private http:HttpClient
+    ) { }
   dataSource = new MatTableDataSource<any>
 
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -119,6 +124,17 @@ export class StaffComponent implements OnInit {
       });
 
     }
+  }
+  downloadFile() {
+    this.http.get(this.downloadfiles.staffurl, { responseType: 'blob' })
+      .subscribe(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Staffdata.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   // // For panel

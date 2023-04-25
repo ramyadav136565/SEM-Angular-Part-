@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BookServiceService } from '../services/BookServices/book-service.service';
+import { HttpClient } from '@angular/common/http';
+import { DownloadServicesService } from '../services/DownloadServices/download-services.service';
 
 export interface Status {
   value: boolean;
@@ -29,7 +31,10 @@ export interface book {
 })
 
 export class BookComponent {
-  constructor(private bookService: BookServiceService) { }
+  constructor(private bookService: BookServiceService,
+    private downloadfiles:DownloadServicesService,
+        private http:HttpClient
+    ) { }
   title: any;
   hideControl: any;
   formName: any = true;
@@ -108,6 +113,17 @@ export class BookComponent {
         }
       });
     }
+  }
+  downloadFile() {
+    this.http.get(this.downloadfiles.bookurl, { responseType: 'blob' })
+      .subscribe(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Bookdata.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   panelOpenState1 = true;
